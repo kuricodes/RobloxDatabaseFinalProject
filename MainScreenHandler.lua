@@ -240,11 +240,23 @@ end
 local function saveChangesClient()
 	for _, frame in pairs(scroller:GetChildren()) do
 		if frame.Name ~= "UIListLayout" then
-			if not (dateValidator(frame.DateRequested.Text) and (dateValidator(frame.DateCompleted.Text)) or frame.DateCompleted.Text == "") then
-				popup.Alert("One or more dates in Ticket "..frame.Name.." are invalid.", popup.Colors.Bad)
+			if not dateValidator(frame.DateRequested.Text) then
+				popup.Alert("Ticket "..frame.Name.."'s requested date is invalid.", popup.Colors.Bad)
 				return false
-				--input validation. terminates the update before any changes are made if any dates are invalid.
-				--the second one is allowed to be nothing so it checks for this as well.
+			end
+			if not dateValidator(frame.DateCompleted.Text) then
+				if frame.DateCompleted.Text ~= "" then
+					popup.Alert("Ticket "..frame.Name.."'s completed date is invalid.", popup.Colors.Bad)
+					return false
+				end
+			end
+			if frame.Technician.Text == "" then
+				popup.Alert("Ticket "..frame.Name.." is missing a technician.", popup.Colors.Bad)
+				return false
+			end
+			if frame.Description.Text == "" then
+				popup.Alert("Ticket "..frame.Name.." is missing a description.", popup.Colors.Bad)
+				return false
 			end
 		end
 	end
@@ -268,12 +280,24 @@ local function createEntry()
 	if isHelpWindowActive then
 		return
 	end
-	if not (dateValidator(newElementFrame.DateRequested.Text) and
-			(dateValidator(newElementFrame.DateCompleted.Text)) or
-			newElementFrame.DateCompleted.Text == "") then
-		popup.Alert("One or more dates in the new entry are invalid.", popup.Colors.Bad)
+	--input validation time
+	if not dateValidator(newElementFrame.DateRequested.Text) then
+		popup.Alert("The new entry's requested date is invalid.", popup.Colors.Bad)
 		return
-		--input validation, terminates function early with a warning message if the new entry box has something wrong
+	end
+	if not dateValidator(newElementFrame.DateCompleted.Text) then
+		if newElementFrame.DateCompleted.Text ~= "" then
+			popup.Alert("The new entry's completed date is invalid.", popup.Colors.Bad)
+			return
+		end
+	end
+	if newElementFrame.Technician.Text == "" then
+		popup.Alert("The new entry must have a technician.", popup.Colors.Bad)
+		return
+	end
+	if newElementFrame.Description.Text == "" then
+		popup.Alert("The new entry must have a description.", popup.Colors.Bad)
+		return
 	end
 	saveChangesClient()
 	--saves any entry changes made just in case
