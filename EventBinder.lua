@@ -1,4 +1,5 @@
 --this is a localscript stored inside the initial blank DataElementFrame's delete button
+--it's also supposed to start disabled so don't forget that
 
 local button = script.Parent
 local event = button.Parent.Parent.Parent:WaitForChild("DeleteEntry")
