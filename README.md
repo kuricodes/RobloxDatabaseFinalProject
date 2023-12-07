@@ -10,7 +10,7 @@ This repo is just here to make looking through the code as easy as possible for 
 the youtube demonstration is here:
 https://youtu.be/7VtofrQnE-s
 
-
+# in case you still want to open the project file
 In order to open the project file, you just have to download Roblox Studio and use it to open the file.
 
 the project file requires datastore access in studio in order to save changes you've made.
